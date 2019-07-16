@@ -2,15 +2,27 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
+const webpack = require("webpack");
 const plugins = [];
 
 module.exports = (env = {}) => {
+  plugins.push(new webpack.ProgressPlugin());
   if (env.production) {
     plugins.push(new CleanWebpackPlugin());
   }
   plugins.push(
     new HtmlWebpackPlugin({
-      template: `${path.resolve(__dirname, "src")}/index.html`
+      template: `${path.resolve(__dirname, "src")}/index.html`,
+      title: "NoteApp",
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
+      },
+      cache: false
     })
   );
   plugins.push(

@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --env.production",
-    "start": "webpack-dev-server --open --progress --colors"
+    "start": "webpack-dev-server --open --progress --colors",
+    "serve": "http-server ./dist -p 3000"
   },
   "license": "MIT",
   "dependencies": {
@@ -12,6 +13,8 @@
     "@babel/plugin-proposal-class-properties": "^7.5.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.5.4",
     "@babel/preset-react": "^7.0.0",
+    "@material-ui/core": "^4.2.0",
+    "@material-ui/icons": "^4.2.1",
     "autoprefixer": "^9.6.1",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
