@@ -9,10 +9,10 @@ React, React router, Babel, Webpack, Material-UI, Netlify
 * Project bootstrapped
 * Build and deploy
 * UI layout
+* Redux integration
 
 ### Todo
 
-* Redux integration
 * Text Editor integration
 * Some webpack performance fixes
 * Google login
