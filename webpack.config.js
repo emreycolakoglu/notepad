@@ -1,5 +1,4 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
@@ -24,12 +23,6 @@ module.exports = (env = {}) => {
         useShortDoctype: true
       },
       cache: false
-    })
-  );
-  plugins.push(
-    new MiniCssExtractPlugin({
-      filename: `[name].css`,
-      chunkFilename: "[id].css"
     })
   );
   return {
@@ -70,33 +63,6 @@ module.exports = (env = {}) => {
         {
           test: /\.js$/,
           loader: "babel-loader",
-          include: /src/
-        },
-        {
-          test: /\.scss$/,
-          loader: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: "css-loader",
-              options: {
-                importLoaders: 2,
-                sourceMap: true
-              }
-            },
-            {
-              loader: "postcss-loader",
-              options: {
-                plugins: () => [require("autoprefixer"), require("cssnano")],
-                sourceMap: true
-              }
-            },
-            {
-              loader: "sass-loader",
-              options: {
-                sourceMap: true
-              }
-            }
-          ],
           include: /src/
         }
       ]

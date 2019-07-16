@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "./navbar";
-import Drawer from "./drawer";
+import FolderDrawer from "./folderDrawer";
+import NoteDrawer from "./noteDrawer";
 import clsx from "clsx";
 import { CssBaseline } from "@material-ui/core";
 
@@ -9,11 +10,14 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex"
+    display: "flex",
+    flex: 1
   },
   content: {
+    display: "flex",
+    flexDirection: "row",
     flexGrow: 1,
-    padding: theme.spacing(3),
+    paddingTop: 48,
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -26,16 +30,12 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
-  },
-  drawerHeader: {
-    height: "48px"
   }
 }));
 
 export default function Layout(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
 
   function handleDrawerClose() {
     setOpen(false);
@@ -53,14 +53,14 @@ export default function Layout(props) {
         handleDrawerToggle={handleDrawerToggle}
         open={open}
       />
-      <Drawer handleDrawerClose={handleDrawerClose} open={open} />
+      <FolderDrawer handleDrawerClose={handleDrawerClose} open={open} />
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open
         })}
       >
-        <div className={classes.drawerHeader} />
-        {props.children}
+        <NoteDrawer />
+        <div>{props.children}</div>
       </main>
     </>
   );

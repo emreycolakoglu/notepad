@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import Layout from "../components/layout";
 import { connect } from "react-redux";
 import { deleteNote, newNote, editNote, selectFolder } from "../redux/actions";
+import Editor from "../components/editor";
 
-class Dummy extends Component {
+class Home extends Component {
   render() {
     return (
       <Layout>
-        <div>{JSON.stringify(this.props.notes)} </div>
+        <Editor />
       </Layout>
     );
   }
@@ -15,7 +16,8 @@ class Dummy extends Component {
 
 const mapStateToProps = (state /*, ownProps*/) => {
   return {
-    notes: state.notes
+    notes: state.notes,
+    selectedFolder: state.selectedFolder
   };
 };
 
@@ -24,4 +26,4 @@ const mapDispatchToProps = { deleteNote, newNote, editNote, selectFolder };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Dummy);
+)(Home);

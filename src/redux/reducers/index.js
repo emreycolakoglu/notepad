@@ -1,8 +1,26 @@
-import { deleteNote, newNote, editNote, selectFolder } from "../actions";
-import { DELETE_NOTE, EDIT_NOTE, NEW_NOTE, SELECT_FOLDER } from "../actions/actionTypes";
+import {
+  DELETE_NOTE,
+  EDIT_NOTE,
+  NEW_NOTE,
+  SELECT_FOLDER,
+  SELECT_NOTE
+} from "../actions/actionTypes";
 import { combineReducers } from "redux";
 
-function notes(state = [], action) {
+const defaultNotes = [
+  {
+    id: "12312312312312",
+    text: "Hello, thank you for trying NoteApp",
+    folderName: "Default"
+  },
+  {
+    id: "12312312312313",
+    text: "Sometimes I write code, sometimes I dont",
+    folderName: "Random Thoughts"
+  }
+];
+
+function notes(state = defaultNotes, action) {
   switch (action.type) {
     case NEW_NOTE:
       return [...state, data];
@@ -32,9 +50,19 @@ function selectedFolder(state = "", action) {
   }
 }
 
+function selectedNote(state = "", action) {
+  switch (action.type) {
+    case SELECT_NOTE:
+      return action.id;
+    default:
+      return state;
+  }
+}
+
 const notesApp = combineReducers({
   notes,
-  selectedFolder
+  selectedFolder,
+  selectedNote
 });
 
 export default notesApp;
