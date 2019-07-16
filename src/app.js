@@ -1,19 +1,22 @@
 import React, { Component } from "react";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { HashRouter, Route } from "react-router-dom";
-import dummy from "./services/views/dummy";
+import dummy from "./views/dummy";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex"
   }
-  render() {
-    return (
-      <HashRouter>
-        <div className="app">
-          <Route exact={true} path="/" component={dummy} />
-        </div>
-      </HashRouter>
-    );
-  }
+}));
+
+export default function App() {
+  const classes = useStyles();
+  //TODO React lazy
+  return (
+    <HashRouter>
+      <div className={classes.root}>
+        <Route exact={true} path="/" component={dummy} />
+      </div>
+    </HashRouter>
+  );
 }
-export default App;
