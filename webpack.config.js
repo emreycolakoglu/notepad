@@ -6,9 +6,10 @@ const webpack = require("webpack");
 const plugins = [];
 
 module.exports = (env = {}) => {
-  plugins.push(new webpack.ProgressPlugin());
   if (env.production) {
     plugins.push(new CleanWebpackPlugin());
+  } else {
+    plugins.push(new webpack.ProgressPlugin());
   }
   plugins.push(
     new HtmlWebpackPlugin({
