@@ -9,7 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { connect } from "react-redux";
 import FolderIcon from "@material-ui/icons/Folder";
 import { groupBy, toPairs } from "lodash-es";
-import { selectFolder } from "../redux/actions";
+import { selectFolder, selectNote } from "../redux/actions";
 
 const drawerWidth = 240;
 
@@ -44,6 +44,7 @@ const PersistentDrawerLeft = (props) => {
   function handleListItemClick(event, value) {
     console.log(value);
     props.selectFolder(value);
+    props.selectNote("");
   }
 
   return (
@@ -103,7 +104,7 @@ const mapStateToProps = (state) => {
     selectedFolder: state.selectedFolder
   };
 };
-const mapDispatchToProps = { selectFolder };
+const mapDispatchToProps = { selectFolder, selectNote };
 
 export default connect(
   mapStateToProps,
