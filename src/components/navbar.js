@@ -4,9 +4,6 @@ import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import TrashIcon from "@material-ui/icons/Delete";
-import NewIcon from "@material-ui/icons/Create";
-import ShareIcon from "@material-ui/icons/Share";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -119,15 +116,7 @@ const Navbar = (props) => {
         <div className={classes.grow} />
 
         <div className={classes.sectionDesktop}>
-          <IconButton aria-label="Create Note" color="inherit">
-            <NewIcon />
-          </IconButton>
-          <IconButton aria-label="Delete Note" color="inherit">
-            <TrashIcon />
-          </IconButton>
-          <IconButton aria-label="Delete Note" color="inherit">
-            <ShareIcon />
-          </IconButton>
+          {props.desktopButtons}
         </div>
 
         <div className={classes.grow} />
@@ -152,11 +141,10 @@ const Navbar = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    notes: state.notes,
-    selectedFolder: state.selectedFolder
+
   };
 };
-const mapDispatchToProps = {};
+const mapDispatchToProps = {  };
 
 export default connect(
   mapStateToProps,

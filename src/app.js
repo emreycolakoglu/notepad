@@ -19,8 +19,8 @@ export default function App() {
     <HashRouter>
       <div className={classes.root}>
         <Route exact={true} path="/" component={HomeView} />
-        <Route path="/:folder" component={HomeView} />
-        <Route path="/:folder/:note" component={HomeView} />
+        <Route exact={true} path="/:folder" component={HomeView} />
+        <Route exact={true} path="/:folder/:note" component={HomeView} />
       </div>
     </HashRouter>
   );

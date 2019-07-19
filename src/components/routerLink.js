@@ -11,12 +11,18 @@ const Link = React.forwardRef((props, ref) => (
 ));
 
 function ListItemLink(props) {
-  const { primary, to, icon, onClick } = props;
+  const { primary, to, icon, onClick, selected, secondary } = props;
   return (
     <li>
-      <ListItem button component={Link} to={to} onClick={onClick}>
+      <ListItem
+        button
+        component={Link}
+        to={to}
+        onClick={onClick}
+        selected={selected}
+      >
         <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={primary} />
+        <ListItemText primary={primary} secondary={secondary} />
       </ListItem>
     </li>
   );

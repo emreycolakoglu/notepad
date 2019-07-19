@@ -6,34 +6,38 @@ import {
   SELECT_NOTE
 } from "../actions/actionTypes";
 import { combineReducers } from "redux";
+import idAdapter from "../../services/id";
 
 const defaultNotes = [
   {
     id: "12312312312312",
     text: "Hello, thank you for trying NoteApp",
-    folderName: "Default"
+    folderName: "Default",
+    lastUpdate: 1563534588776
   },
   {
     id: "12312312312313",
     text: "Sometimes I write code, sometimes I dont",
-    folderName: "Random Thoughts"
+    folderName: "Random Thoughts",
+    lastUpdate: 1563530588776
   }
 ];
 
 function notes(state = defaultNotes, action) {
   switch (action.type) {
     case NEW_NOTE:
-      return [...state, data];
+      action.data.id = idAdapter.createId();
+      return [...state, action.data];
     case EDIT_NOTE:
       return state.map((todo) => {
-        if (todo.id == data.id) {
-          return Object.assign({}, data);
+        if (todo.id == action.data.id) {
+          return Object.assign({}, action.data);
         }
         return todo;
       });
     case DELETE_NOTE:
       const updatedNotes = state.filter((note) => {
-        return note.id != id;
+        return note.id != action.id;
       });
       return [...updatedNotes];
     default:

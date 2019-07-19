@@ -3,14 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import { connect } from "react-redux";
 import FolderIcon from "@material-ui/icons/Folder";
 import { groupBy, toPairs } from "lodash-es";
 import { selectFolder, selectNote } from "../redux/actions";
 import ListItemLink from "./routerLink";
+import slug from "../services/slug";
 
 const drawerWidth = 240;
 
@@ -63,19 +61,8 @@ const PersistentDrawerLeft = (props) => {
       </div>
       <Divider />
       <List>
-        {/** <ListItem
-          selected={props.selectedFolder === ""}
-          onClick={(event) => handleListItemClick(event, "")}
-          button
-          key={""}
-        >
-          <ListItemIcon>
-            <FolderIcon />
-          </ListItemIcon>
-          <ListItemText primary={"All"} />
-        </ListItem>*/}
-
         <ListItemLink
+          selected={props.selectedFolder === ""}
           onClick={(event) => handleListItemClick(event, "")}
           to="/"
           icon={<FolderIcon />}
@@ -94,7 +81,7 @@ const PersistentDrawerLeft = (props) => {
               key={folder.key}
               selected={props.selectedFolder === folder.key}
               onClick={(event) => handleListItemClick(event, folder.key)}
-              to={`/${folder.key}`}
+              to={`/${slug.slugify(folder.key)}`}
               icon={<FolderIcon />}
               primary={folder.key}
             />
@@ -115,17 +102,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(PersistentDrawerLeft);
-
-/**
- * <ListItem
-              selected={props.selectedFolder === folder.key}
-              onClick={(event) => handleListItemClick(event, folder.key)}
-              button
-              key={folder.key}
-            >
-              <ListItemIcon>
-                <FolderIcon />
-              </ListItemIcon>
-              <ListItemText primary={folder.key} />
-            </ListItem>
- */

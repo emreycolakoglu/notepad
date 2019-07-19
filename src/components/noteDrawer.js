@@ -7,6 +7,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PageIcon from "@material-ui/icons/Pages";
 import { connect } from "react-redux";
 import { selectNote } from "../redux/actions";
+import ListItemLink from "./routerLink";
+import slug from "../services/slug";
+import dayjs from "dayjs";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,17 +39,16 @@ const NoteDrawer = (props) => {
             return note;
           })
           .map((note, index) => (
-            <ListItem
+            <ListItemLink
               selected={props.selectedNote === note.id}
               onClick={(event) => handleListItemClick(event, note.id)}
               button
+              to={`/${slug.slugify(note.folderName)}/${note.id}`}
               key={index}
-            >
-              <ListItemIcon>
-                <PageIcon />
-              </ListItemIcon>
-              <ListItemText primary={`${note.text.substring(0, 20)}..`} />
-            </ListItem>
+              icon={<PageIcon />}
+              primary={`${note.text.substring(0, 20)}..`}
+              secondary={`${dayjs(note.lastUpdate).format('D MMMM')}`}
+            />
           ))}
       </List>
     </div>
@@ -61,4 +63,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = { selectNote };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NoteDrawer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NoteDrawer);

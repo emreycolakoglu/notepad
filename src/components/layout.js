@@ -56,6 +56,7 @@ export default function Layout(props) {
         title={props.title || "NoteApp"}
         handleDrawerToggle={handleDrawerToggle}
         open={open}
+        desktopButtons={props.desktopButtons}
       />
       <FolderDrawer handleDrawerClose={handleDrawerClose} open={open} />
       <main
