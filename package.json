@@ -2,6 +2,9 @@
   "name": "web",
   "version": "1.0.0",
   "main": "index.js",
+  "author": {
+    "name": "Emre Colakoglu"
+  },
   "scripts": {
     "build": "webpack --env.production",
     "start": "webpack-dev-server --open --progress --colors",
@@ -11,6 +14,14 @@
   "browserslist": [
     "defaults"
   ],
+  "homepage": "https://github.com/emreycolakoglu/notepad",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emreycolakoglu/notepad"
+  },
+  "bugs": {
+    "url": "https://github.com/emreycolakoglu/notepad/issues"
+  },
   "dependencies": {
     "@babel/core": "^7.5.4",
     "@babel/plugin-proposal-class-properties": "^7.5.0",
