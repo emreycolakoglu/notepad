@@ -4,10 +4,14 @@ import clsx from "clsx";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
+import TrashIcon from "@material-ui/icons/Delete";
+import NewIcon from "@material-ui/icons/Create";
+import ShareIcon from "@material-ui/icons/Share";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import { connect } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -87,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function navbar(props) {
+const Navbar = (props) => {
   const classes = useStyles();
 
   return (
@@ -114,6 +118,20 @@ export default function navbar(props) {
 
         <div className={classes.grow} />
 
+        <div className={classes.sectionDesktop}>
+          <IconButton aria-label="Create Note" color="inherit">
+            <NewIcon />
+          </IconButton>
+          <IconButton aria-label="Delete Note" color="inherit">
+            <TrashIcon />
+          </IconButton>
+          <IconButton aria-label="Delete Note" color="inherit">
+            <ShareIcon />
+          </IconButton>
+        </div>
+
+        <div className={classes.grow} />
+
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
@@ -130,4 +148,17 @@ export default function navbar(props) {
       </Toolbar>
     </AppBar>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  return {
+    notes: state.notes,
+    selectedFolder: state.selectedFolder
+  };
+};
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);

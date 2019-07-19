@@ -14,10 +14,13 @@ const useStyles = makeStyles(() => ({
 export default function App() {
   const classes = useStyles();
   //TODO React lazy
+  //TODO routerı homeview içine taşımak gerek
   return (
     <HashRouter>
       <div className={classes.root}>
         <Route exact={true} path="/" component={HomeView} />
+        <Route path="/:folder" component={HomeView} />
+        <Route path="/:folder/:note" component={HomeView} />
       </div>
     </HashRouter>
   );

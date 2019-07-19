@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import FolderIcon from "@material-ui/icons/Folder";
 import { groupBy, toPairs } from "lodash-es";
 import { selectFolder, selectNote } from "../redux/actions";
+import ListItemLink from "./routerLink";
 
 const drawerWidth = 240;
 
@@ -62,7 +63,7 @@ const PersistentDrawerLeft = (props) => {
       </div>
       <Divider />
       <List>
-        <ListItem
+        {/** <ListItem
           selected={props.selectedFolder === ""}
           onClick={(event) => handleListItemClick(event, "")}
           button
@@ -72,8 +73,15 @@ const PersistentDrawerLeft = (props) => {
             <FolderIcon />
           </ListItemIcon>
           <ListItemText primary={"All"} />
-        </ListItem>
-        
+        </ListItem>*/}
+
+        <ListItemLink
+          onClick={(event) => handleListItemClick(event, "")}
+          to="/"
+          icon={<FolderIcon />}
+          primary="All"
+        />
+
         {toPairs(groupBy(props.notes, "folderName"))
           .map((arrayPair) => {
             return {
@@ -82,17 +90,14 @@ const PersistentDrawerLeft = (props) => {
             };
           })
           .map((folder) => (
-            <ListItem
+            <ListItemLink
+              key={folder.key}
               selected={props.selectedFolder === folder.key}
               onClick={(event) => handleListItemClick(event, folder.key)}
-              button
-              key={folder.key}
-            >
-              <ListItemIcon>
-                <FolderIcon />
-              </ListItemIcon>
-              <ListItemText primary={folder.key} />
-            </ListItem>
+              to={`/${folder.key}`}
+              icon={<FolderIcon />}
+              primary={folder.key}
+            />
           ))}
       </List>
     </Drawer>
@@ -110,3 +115,17 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(PersistentDrawerLeft);
+
+/**
+ * <ListItem
+              selected={props.selectedFolder === folder.key}
+              onClick={(event) => handleListItemClick(event, folder.key)}
+              button
+              key={folder.key}
+            >
+              <ListItemIcon>
+                <FolderIcon />
+              </ListItemIcon>
+              <ListItemText primary={folder.key} />
+            </ListItem>
+ */
