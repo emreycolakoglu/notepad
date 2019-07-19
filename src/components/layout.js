@@ -5,6 +5,7 @@ import FolderDrawer from "./folderDrawer";
 import NoteDrawer from "./noteDrawer";
 import clsx from "clsx";
 import { CssBaseline } from "@material-ui/core";
+import storage from "../services/storage";
 
 const drawerWidth = 240;
 
@@ -35,13 +36,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Layout(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const folderDrawerOpen = storage.get("folderDrawerOpen") || false;
+  const [open, setOpen] = React.useState(folderDrawerOpen);
 
   function handleDrawerClose() {
+    storage.set("folderDrawerOpen", false);
     setOpen(false);
   }
 
   function handleDrawerToggle() {
+    storage.set("folderDrawerOpen", !open);
     setOpen(!open);
   }
 
