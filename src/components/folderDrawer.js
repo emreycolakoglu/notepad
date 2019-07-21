@@ -46,6 +46,13 @@ const PersistentDrawerLeft = (props) => {
     props.selectNote("");
   }
 
+  function handleRightClick(e){
+    if (e.type === 'contextmenu') {
+      e.preventDefault();
+      // TODO open folder context menu here
+    }
+  }
+
   return (
     <Drawer
       className={classes.drawer}
@@ -62,37 +69,39 @@ const PersistentDrawerLeft = (props) => {
       <Divider />
       <List>
         <ListItemLink
-          selected={props.selectedFolder === ""}
-          onClick={(event) => handleListItemClick(event, "")}
+          selected={props.selectedFolder.slug === ""}
+          onClick={(event) =>
+            handleListItemClick(event, { name: "All", slug: "" })
+          }
           to="/"
           icon={<FolderIcon />}
           primary="All"
+          onContextMenu={handleRightClick}
         />
-
-        {toPairs(groupBy(props.notes, "folderName"))
-          .map((arrayPair) => {
-            return {
-              key: arrayPair[0],
-              value: arrayPair[1]
-            };
-          })
-          .map((folder) => (
-            <ListItemLink
-              key={folder.key}
-              selected={props.selectedFolder === folder.key}
-              onClick={(event) => handleListItemClick(event, folder.key)}
-              to={`/${slug.slugify(folder.key)}`}
-              icon={<FolderIcon />}
-              primary={folder.key}
-            />
-          ))}
+        {props.folders.map((folder) => (
+          <ListItemLink
+            key={folder.slug}
+            selected={props.selectedFolder.slug === folder.slug}
+            onClick={(event) => handleListItemClick(event, folder)}
+            to={`/${folder.slug}`}
+            icon={<FolderIcon />}
+            primary={folder.name}
+            onContextMenu={handleRightClick}
+          />
+        ))}
       </List>
+      {
+        /**
+         * // TODO New Folder button
+         */
+      }
     </Drawer>
   );
 };
 const mapStateToProps = (state) => {
   return {
     notes: state.notes,
+    folders: state.folders,
     selectedFolder: state.selectedFolder
   };
 };

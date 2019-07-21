@@ -23,9 +23,32 @@ const useStyles = makeStyles((theme) => ({
 const NoteDrawer = (props) => {
   const classes = useStyles();
 
+  /**
+   * fired when a note is clicked
+   * @param {*} event 
+   * @param {*} value 
+   */
   function handleListItemClick(event, value) {
     console.log(value);
     props.selectNote(value);
+  }
+
+  /**
+   * if updated today, display time
+   */
+  function renderSecondaryLine(lastUpdate) {
+    if (dayjs().isSame(dayjs(lastUpdate), "day")) {
+      return dayjs(lastUpdate).format("HH:mm");
+    } else {
+      return dayjs(lastUpdate).format("D MMMM");
+    }
+  }
+
+  function handleRightClick(e){
+    if (e.type === 'contextmenu') {
+      e.preventDefault();
+      // TODO open note context menu here
+    }
   }
 
   return (
@@ -33,10 +56,13 @@ const NoteDrawer = (props) => {
       <List component="nav" aria-label="Main mailbox folders">
         {props.notes
           .filter((note) => {
-            if (props.selectedFolder) {
-              return note.folderName == props.selectedFolder;
+            if (props.selectedFolder && props.selectedFolder.slug != "") {
+              return note.folderName == props.selectedFolder.name;
             }
             return note;
+          })
+          .sort((a, b) => {
+            return b.lastUpdate - a.lastUpdate;
           })
           .map((note, index) => (
             <ListItemLink
@@ -47,7 +73,8 @@ const NoteDrawer = (props) => {
               key={index}
               icon={<PageIcon />}
               primary={`${note.text.substring(0, 20)}..`}
-              secondary={`${dayjs(note.lastUpdate).format('D MMMM')}`}
+              secondary={`${renderSecondaryLine(note.lastUpdate)}`}
+              onContextMenu={handleRightClick}
             />
           ))}
       </List>
@@ -58,7 +85,8 @@ const NoteDrawer = (props) => {
 const mapStateToProps = (state) => {
   return {
     notes: state.notes,
-    selectedFolder: state.selectedFolder
+    selectedFolder: state.selectedFolder,
+    selectedNote: state.selectedNote
   };
 };
 const mapDispatchToProps = { selectNote };

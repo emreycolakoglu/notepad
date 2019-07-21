@@ -2,8 +2,11 @@ import {
   DELETE_NOTE,
   EDIT_NOTE,
   NEW_NOTE,
+  SELECT_NOTE,
+  DELETE_FOLDER,
+  EDIT_FOLDER,
+  NEW_FOLDER,
   SELECT_FOLDER,
-  SELECT_NOTE
 } from "../actions/actionTypes";
 import { combineReducers } from "redux";
 import idAdapter from "../../services/id";
@@ -20,6 +23,13 @@ const defaultNotes = [
     text: "Sometimes I write code, sometimes I dont",
     folderName: "Random Thoughts",
     lastUpdate: 1563530588776
+  }
+];
+
+const defaultFolders = [
+  {
+    name: "Default",
+    slug: "default"
   }
 ];
 
@@ -45,10 +55,32 @@ function notes(state = defaultNotes, action) {
   }
 }
 
-function selectedFolder(state = "", action) {
+function folders(state = defaultFolders, action) {
+  switch (action.type) {
+    case NEW_FOLDER:
+      action.data.slug = idAdapter.createId();
+      return [...state, action.data];
+    case EDIT_FOLDER:
+      return state.map((folder) => {
+        if (folder.slug == action.data.slug) {
+          return Object.assign({}, action.data);
+        }
+        return folder;
+      });
+    case DELETE_FOLDER:
+      const updatedFolders = state.filter((note) => {
+        return note.slug != action.slug;
+      });
+      return [...updatedFolders];
+    default:
+      return state;
+  }
+}
+
+function selectedFolder(state = { name: "All", slug: "" }, action) {
   switch (action.type) {
     case SELECT_FOLDER:
-      return action.name;
+      return action.folder;
     default:
       return state;
   }
@@ -65,6 +97,7 @@ function selectedNote(state = "", action) {
 
 const notesApp = combineReducers({
   notes,
+  folders,
   selectedFolder,
   selectedNote
 });

@@ -91,6 +91,11 @@ const useStyles = makeStyles((theme) => ({
 const Navbar = (props) => {
   const classes = useStyles();
 
+  function onSearchTermEntry(event) {
+    // TODO search func
+    console.log(event.target.value);
+  }
+
   return (
     <AppBar
       position="fixed"
@@ -115,9 +120,7 @@ const Navbar = (props) => {
 
         <div className={classes.grow} />
 
-        <div className={classes.sectionDesktop}>
-          {props.desktopButtons}
-        </div>
+        <div className={classes.sectionDesktop}>{props.desktopButtons}</div>
 
         <div className={classes.grow} />
 
@@ -132,6 +135,7 @@ const Navbar = (props) => {
               input: classes.inputInput
             }}
             inputProps={{ "aria-label": "Search" }}
+            onChange={onSearchTermEntry}
           />
         </div>
       </Toolbar>
@@ -140,11 +144,9 @@ const Navbar = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return {
-
-  };
+  return {};
 };
-const mapDispatchToProps = {  };
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

@@ -11,7 +11,7 @@ const Link = React.forwardRef((props, ref) => (
 ));
 
 function ListItemLink(props) {
-  const { primary, to, icon, onClick, selected, secondary } = props;
+  const { primary, to, icon, onClick, selected, secondary, onContextMenu } = props;
   return (
     <li>
       <ListItem
@@ -20,6 +20,7 @@ function ListItemLink(props) {
         to={to}
         onClick={onClick}
         selected={selected}
+        onContextMenu={onContextMenu}
       >
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={primary} secondary={secondary} />

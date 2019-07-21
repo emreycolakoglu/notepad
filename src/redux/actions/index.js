@@ -2,8 +2,11 @@ import {
   DELETE_NOTE,
   EDIT_NOTE,
   NEW_NOTE,
+  SELECT_NOTE,
+  DELETE_FOLDER,
+  EDIT_FOLDER,
+  NEW_FOLDER,
   SELECT_FOLDER,
-  SELECT_NOTE
 } from "./actionTypes";
 
 export function deleteNote(id) {
@@ -27,16 +30,37 @@ export function newNote(data) {
   };
 }
 
-export function selectFolder(name) {
-  return {
-    type: SELECT_FOLDER,
-    name
-  };
-}
-
 export function selectNote(id) {
   return {
     type: SELECT_NOTE,
     id
+  };
+}
+
+export function deleteFolder(id) {
+  return {
+    type: DELETE_FOLDER,
+    id
+  };
+}
+
+export function editFolder(data) {
+  return {
+    type: EDIT_FOLDER,
+    data
+  };
+}
+
+export function newFolder(data) {
+  return {
+    type: NEW_FOLDER,
+    data
+  };
+}
+
+export function selectFolder(folder) {
+  return {
+    type: SELECT_FOLDER,
+    folder
   };
 }

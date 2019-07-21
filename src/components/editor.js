@@ -5,6 +5,7 @@ const Editor = (props) => {
   const sn = props.notes.find((note) => {
     return note.id == props.selectedNote;
   });
+  // TODO text editor
   return (
     <div>
       <div>{sn ? sn.text : ""}</div>

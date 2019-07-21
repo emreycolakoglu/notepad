@@ -14,7 +14,6 @@ const useStyles = makeStyles(() => ({
 export default function App() {
   const classes = useStyles();
   //TODO React lazy
-  //TODO routerı homeview içine taşımak gerek
   return (
     <HashRouter>
       <div className={classes.root}>
