@@ -1,15 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import PageIcon from "@material-ui/icons/Pages";
 import { connect } from "react-redux";
 import { selectNote } from "../redux/actions";
-import ListItemLink from "./routerLink";
-import slug from "../services/slug";
-import dayjs from "dayjs";
+import Note from "./note";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,34 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 const NoteDrawer = (props) => {
   const classes = useStyles();
-
-  /**
-   * fired when a note is clicked
-   * @param {*} event 
-   * @param {*} value 
-   */
-  function handleListItemClick(event, value) {
-    console.log(value);
-    props.selectNote(value);
-  }
-
-  /**
-   * if updated today, display time
-   */
-  function renderSecondaryLine(lastUpdate) {
-    if (dayjs().isSame(dayjs(lastUpdate), "day")) {
-      return dayjs(lastUpdate).format("HH:mm");
-    } else {
-      return dayjs(lastUpdate).format("D MMMM");
-    }
-  }
-
-  function handleRightClick(e){
-    if (e.type === 'contextmenu') {
-      e.preventDefault();
-      // TODO open note context menu here
-    }
-  }
 
   return (
     <div className={classes.root}>
@@ -65,17 +31,7 @@ const NoteDrawer = (props) => {
             return b.lastUpdate - a.lastUpdate;
           })
           .map((note, index) => (
-            <ListItemLink
-              selected={props.selectedNote === note.id}
-              onClick={(event) => handleListItemClick(event, note.id)}
-              button
-              to={`/${slug.slugify(note.folderName)}/${note.id}`}
-              key={index}
-              icon={<PageIcon />}
-              primary={`${note.text.substring(0, 20)}..`}
-              secondary={`${renderSecondaryLine(note.lastUpdate)}`}
-              onContextMenu={handleRightClick}
-            />
+            <Note note={note} index={index} key={index} />
           ))}
       </List>
     </div>

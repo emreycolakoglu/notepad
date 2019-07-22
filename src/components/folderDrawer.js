@@ -5,10 +5,9 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import { connect } from "react-redux";
 import FolderIcon from "@material-ui/icons/Folder";
-import { groupBy, toPairs } from "lodash-es";
 import { selectFolder, selectNote } from "../redux/actions";
 import ListItemLink from "./routerLink";
-import slug from "../services/slug";
+import Folder from "./folder";
 
 const drawerWidth = 240;
 
@@ -40,19 +39,6 @@ const useStyles = makeStyles((theme) => ({
 const PersistentDrawerLeft = (props) => {
   const classes = useStyles();
 
-  function handleListItemClick(event, value) {
-    console.log(value);
-    props.selectFolder(value);
-    props.selectNote("");
-  }
-
-  function handleRightClick(e){
-    if (e.type === 'contextmenu') {
-      e.preventDefault();
-      // TODO open folder context menu here
-    }
-  }
-
   return (
     <Drawer
       className={classes.drawer}
@@ -68,33 +54,13 @@ const PersistentDrawerLeft = (props) => {
       </div>
       <Divider />
       <List>
-        <ListItemLink
-          selected={props.selectedFolder.slug === ""}
-          onClick={(event) =>
-            handleListItemClick(event, { name: "All", slug: "" })
-          }
-          to="/"
-          icon={<FolderIcon />}
-          primary="All"
-          onContextMenu={handleRightClick}
-        />
-        {props.folders.map((folder) => (
-          <ListItemLink
-            key={folder.slug}
-            selected={props.selectedFolder.slug === folder.slug}
-            onClick={(event) => handleListItemClick(event, folder)}
-            to={`/${folder.slug}`}
-            icon={<FolderIcon />}
-            primary={folder.name}
-            onContextMenu={handleRightClick}
-          />
+        {props.folders.map((folder, index) => (
+          <Folder folder={folder} key={index} />
         ))}
       </List>
-      {
-        /**
-         * // TODO New Folder button
-         */
-      }
+      {/**
+       * // TODO New Folder button
+       */}
     </Drawer>
   );
 };

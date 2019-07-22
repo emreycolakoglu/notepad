@@ -6,7 +6,7 @@ import {
   DELETE_FOLDER,
   EDIT_FOLDER,
   NEW_FOLDER,
-  SELECT_FOLDER,
+  SELECT_FOLDER
 } from "../actions/actionTypes";
 import { combineReducers } from "redux";
 import idAdapter from "../../services/id";
@@ -27,6 +27,7 @@ const defaultNotes = [
 ];
 
 const defaultFolders = [
+  { name: "All", slug: "" },
   {
     name: "Default",
     slug: "default"
