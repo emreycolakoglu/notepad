@@ -6,8 +6,8 @@ import NoteDrawer from "./noteDrawer";
 import clsx from "clsx";
 import { CssBaseline } from "@material-ui/core";
 import storage from "../services/storage";
-import { DndProvider } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { DndProvider } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
 const drawerWidth = 240;
 

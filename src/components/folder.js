@@ -37,7 +37,12 @@ const Folder = ({ folder, ...props }) => {
   }
 
   return (
-    <div ref={drop}>
+    <div
+      ref={drop}
+      style={{
+        backgroundColor: isOver ? "rgba(0,0,0,0.08)" : "white"
+      }}
+    >
       <ListItemLink
         key={folder.slug}
         selected={props.selectedFolder.slug === folder.slug}

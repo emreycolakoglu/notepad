@@ -1,4 +1,5 @@
 import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import ListItemLink from "./routerLink";
 import PageIcon from "@material-ui/icons/Pages";
 import { useDrag } from "react-dnd";
@@ -8,6 +9,8 @@ import slug from "../services/slug";
 import dayjs from "dayjs";
 
 const Note = ({ note, ...props }) => {
+  const classes = useStyles();
+
   const [{ isDragging }, drag] = useDrag({
     item: { type: "NOTE", note },
     collect: (monitor) => ({
@@ -28,12 +31,23 @@ const Note = ({ note, ...props }) => {
   /**
    * if updated today, display time
    */
-  function renderSecondaryLine(lastUpdate) {
-    if (dayjs().isSame(dayjs(lastUpdate), "day")) {
-      return dayjs(lastUpdate).format("HH:mm");
-    } else {
-      return dayjs(lastUpdate).format("D MMMM");
-    }
+  function renderSecondaryLine(lastUpdate, folder = null) {
+    const format = dayjs().isSame(dayjs(lastUpdate), "day")
+      ? "HH:mm"
+      : "D MMMM";
+    return (
+      <React.Fragment>
+        <span className={classes.secondary}>
+          {dayjs(lastUpdate).format(format)}
+        </span>
+        {folder ? (
+          <>
+            <span> | </span>
+            <span className={classes.secondary}>{folder}</span>
+          </>
+        ) : null}
+      </React.Fragment>
+    );
   }
 
   function handleRightClick(e) {
@@ -43,18 +57,20 @@ const Note = ({ note, ...props }) => {
     }
   }
   return (
-    <div ref={drag}>
+    <div
+      ref={drag}
+      style={{
+        opacity: isDragging ? 0.5 : 1
+      }}
+    >
       <ListItemLink
-        style={{
-          opacity: isDragging ? 0.5 : 1
-        }}
         selected={props.selectedNote === note.id}
         onClick={(event) => handleListItemClick(event, note.id)}
         button
         to={`/${slug.slugify(note.folderName)}/${note.id}`}
         icon={<PageIcon />}
         primary={`${note.text.substring(0, 20)}..`}
-        secondary={renderSecondaryLine(note.lastUpdate)}
+        secondary={renderSecondaryLine(note.lastUpdate, note.folderName)}
         onContextMenu={handleRightClick}
       />
     </div>
@@ -69,6 +85,12 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = { selectNote };
+
+const useStyles = makeStyles((theme) => ({
+  secondary: {
+    fontSize: "10px"
+  }
+}));
 
 export default connect(
   mapStateToProps,

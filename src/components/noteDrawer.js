@@ -5,15 +5,6 @@ import { connect } from "react-redux";
 import { selectNote } from "../redux/actions";
 import Note from "./note";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 240,
-    height: "100%",
-    backgroundColor: theme.palette.background.paper
-  }
-}));
-
 const NoteDrawer = (props) => {
   const classes = useStyles();
 
@@ -46,6 +37,15 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = { selectNote };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    maxWidth: 240,
+    height: "100%",
+    backgroundColor: theme.palette.background.paper
+  }
+}));
 
 export default connect(
   mapStateToProps,
