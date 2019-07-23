@@ -10,6 +10,7 @@ import {
 } from "../actions/actionTypes";
 import { combineReducers } from "redux";
 import idAdapter from "../../services/id";
+import slugAdapter from "../../services/slug";
 
 const defaultNotes = [
   {
@@ -59,7 +60,7 @@ function notes(state = defaultNotes, action) {
 function folders(state = defaultFolders, action) {
   switch (action.type) {
     case NEW_FOLDER:
-      action.data.slug = idAdapter.createId();
+      action.data.slug = slugAdapter.slugify(action.data.name);
       return [...state, action.data];
     case EDIT_FOLDER:
       return state.map((folder) => {

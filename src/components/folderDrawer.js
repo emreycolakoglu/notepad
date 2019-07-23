@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { selectFolder, selectNote } from "../redux/actions";
 import Folder from "./folder";
+import NewFolder from "./newFolder";
 
 const PersistentDrawerLeft = (props) => {
   const classes = useStyles();
@@ -26,14 +27,20 @@ const PersistentDrawerLeft = (props) => {
         <h3>Folders</h3>
       </div>
       <Divider />
-      
+
       <List>
         {props.folders.map((folder, index) => (
           <Folder folder={folder} key={index} />
         ))}
       </List>
 
-      {newFolderVisible ? <div>visible</div> : null}
+      {newFolderVisible ? (
+        <NewFolder
+          onNewFolderCreated={() => {
+            useNewFolderVisible(false);
+          }}
+        />
+      ) : null}
 
       <div className={classes.grow} />
 
@@ -47,9 +54,6 @@ const PersistentDrawerLeft = (props) => {
           New Folder
         </Button>
       </div>
-      {/**
-       * // TODO New Folder button
-       */}
     </Drawer>
   );
 };
