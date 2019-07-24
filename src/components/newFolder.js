@@ -15,9 +15,11 @@ const NewFolder = (props) => {
       onChange={(e) => {
         useFolderName(e.target.value);
       }}
-      onKeyPress={(ev) => {
+      onKeyDown={(ev) => {
         if (ev.key === "Enter") {
           props.newFolder({ name: folderName });
+          props.onNewFolderCreated();
+        } else if (ev.key === "Escape") {
           props.onNewFolderCreated();
         }
       }}
