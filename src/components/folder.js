@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import ListItemLink from "./routerLink";
 import { useDrop } from "react-dnd";
 import FolderIcon from "@material-ui/icons/Folder";
-
 import { connect } from "react-redux";
-import { selectFolder, selectNote, editNote } from "../redux/actions";
+import {
+  selectFolder,
+  deleteFolder,
+  selectNote,
+  editNote
+} from "../redux/actions";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const Folder = ({ folder, ...props }) => {
   const [{ isOver }, drop] = useDrop({
@@ -22,6 +31,11 @@ const Folder = ({ folder, ...props }) => {
       isOver: !!monitor.isOver()
     })
   });
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  function handleContextMenuClose() {
+    setAnchorEl(null);
+  }
 
   function handleListItemClick(event, value) {
     console.log(value);
@@ -32,8 +46,14 @@ const Folder = ({ folder, ...props }) => {
   function handleRightClick(e) {
     if (e.type === "contextmenu") {
       e.preventDefault();
-      // TODO open folder context menu here
+      setAnchorEl(e.target);
     }
+  }
+
+  function handleDeleteFolder(e) {
+    e.preventDefault();
+    props.deleteFolder(folder);
+    handleContextMenuClose();
   }
 
   return (
@@ -42,6 +62,7 @@ const Folder = ({ folder, ...props }) => {
       style={{
         backgroundColor: isOver ? "rgba(0,0,0,0.08)" : "white"
       }}
+      onContextMenu={handleRightClick}
     >
       <ListItemLink
         key={folder.slug}
@@ -50,8 +71,22 @@ const Folder = ({ folder, ...props }) => {
         to={`/${folder.slug}`}
         icon={<FolderIcon />}
         primary={folder.name}
-        onContextMenu={handleRightClick}
       />
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        getContentAnchorEl={null}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleContextMenuClose}
+      >
+        <MenuItem onClick={handleDeleteFolder}>
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Delete" />
+        </MenuItem>
+      </Menu>
     </div>
   );
 };
@@ -63,7 +98,7 @@ const mapStateToProps = (state) => {
     selectedFolder: state.selectedFolder
   };
 };
-const mapDispatchToProps = { selectFolder, selectNote, editNote };
+const mapDispatchToProps = { selectFolder, deleteFolder, selectNote, editNote };
 
 export default connect(
   mapStateToProps,

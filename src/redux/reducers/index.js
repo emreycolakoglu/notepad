@@ -70,8 +70,9 @@ function folders(state = defaultFolders, action) {
         return folder;
       });
     case DELETE_FOLDER:
-      const updatedFolders = state.filter((note) => {
-        return note.slug != action.slug;
+      if (action.folder.slug == "") return state;
+      const updatedFolders = state.filter((folder) => {
+        return folder.slug != action.folder.slug;
       });
       return [...updatedFolders];
     default:

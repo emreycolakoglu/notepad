@@ -37,10 +37,10 @@ export function selectNote(id) {
   };
 }
 
-export function deleteFolder(id) {
+export function deleteFolder(folder) {
   return {
     type: DELETE_FOLDER,
-    id
+    folder
   };
 }
 
