@@ -5,7 +5,7 @@ import FolderDrawer from "./folderDrawer";
 import NoteDrawer from "./noteDrawer";
 import clsx from "clsx";
 import { CssBaseline } from "@material-ui/core";
-import storage from "../services/storage";
+import storage from "../adapters/storage";
 import { DndProvider } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 
@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
+  },
+  editorWrapper: {
+    width: "100%",
+    height: "100%",
+    overflowY: "hidden"
   }
 }));
 
@@ -67,7 +72,7 @@ export default function Layout(props) {
         })}
       >
         <NoteDrawer />
-        <div>{props.children}</div>
+        <div className={classes.editorWrapper}>{props.children}</div>
       </main>
     </DndProvider>
   );

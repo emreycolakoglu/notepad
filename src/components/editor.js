@@ -1,23 +1,31 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
 const Editor = (props) => {
-  const sn = props.notes.find((note) => {
-    return note.id == props.selectedNote;
-  });
-  // TODO text editor
+  const classes = useStyles();
+  //sn && setText(sn.text);
+
   return (
-    <div>
-      <div>{sn ? sn.text : ""}</div>
-    </div>
+    <textarea
+      className={classes.editorWrapper}
+      value={props.text}
+      onChange={(e) => {
+        props.onChange(e.target.value);
+      }}
+    />
   );
 };
 
-const mapStateToProps = (state /*, ownProps*/) => {
-  return {
-    notes: state.notes,
-    selectedNote: state.selectedNote
-  };
-};
+const useStyles = makeStyles((theme) => ({
+  editorWrapper: {
+    width: "100%",
+    height: "100%",
+    padding: 16,
+    border: 0,
+    "&:focus": {
+      outline: "none"
+    }
+  }
+}));
 
-export default connect(mapStateToProps)(Editor);
+export default Editor;

@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import Layout from "../components/layout";
 import { connect } from "react-redux";
 import { deleteNote, newNote, editNote, selectFolder } from "../redux/actions";
@@ -100,9 +100,21 @@ const Home = (props) => {
     );
   }
 
+  function noteChanged(newText) {
+    props.editNote({
+      id: props.selectedNote,
+      text: newText,
+      lastUpdate: Date.now()
+    });
+  }
+
+  const sn = props.notes.find((n) => {
+    return n.id == props.selectedNote;
+  });
+
   return (
     <Layout desktopButtons={renderDesktopButtons()}>
-      <Editor />
+      <Editor text={sn && sn.text} onChange={(t) => noteChanged(t)} />
     </Layout>
   );
 };

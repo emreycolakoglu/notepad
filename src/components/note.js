@@ -5,7 +5,7 @@ import PageIcon from "@material-ui/icons/Pages";
 import { useDrag } from "react-dnd";
 import { connect } from "react-redux";
 import { selectNote } from "../redux/actions";
-import slug from "../services/slug";
+import slug from "../adapters/slug";
 import dayjs from "dayjs";
 
 const Note = ({ note, ...props }) => {
