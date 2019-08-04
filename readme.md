@@ -2,21 +2,41 @@
 
 A browser based, offline first note taking app. It should be like Notes app in OSX when finished.
 
-### Stack
+![noteapp](https://i.imgsafe.org/74/74097ea471.png "NoteApp")
+
+
+## Stack
 React, React router, Babel, Webpack, Material-UI, Netlify
 
-### Done
-* Project bootstrapped
-* Build and deploy
-* UI layout
-* Redux integration
+## Contributing
+Pull requests are welcome. Please use VSCode and Prettier and make sure you didn't break any formatting. Feel free to file any issue you encountered.
 
-### Todo
+## Roadmap
 
-* Text Editor integration
-* Some webpack performance fixes
-* Google login
-* Google drive integration for persistent storage
-* Some UI polish (theme, icons)
-* Unit and E2E tests
-* Electron wrapper for desktop enthusiasts
+### MVP (Done) 🚀
+- Basic UI
+- Basic Redux integration
+- Browser local storage for persistent storage
+- Netlify deployment
+
+### V0 ⏲
+- Unit and E2E tests
+
+### V1
+- Mobile UI
+
+### V2
+- Multiple storage support
+- Dropbox integration & sync
+
+### V3
+- New editor with rich formatting support
+- Dark theme
+- Offline support
+
+### V4 
+- Google Drive integration
+- Share functionality
+
+### V5
+- Desktop UI with Electron
