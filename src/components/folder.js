@@ -73,7 +73,7 @@ const Folder = ({ folder, ...props }) => {
         primary={folder.name}
       />
       <Menu
-        id="simple-menu"
+        id="simple-folder-menu"
         anchorEl={anchorEl}
         getContentAnchorEl={null}
         keepMounted

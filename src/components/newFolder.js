@@ -8,6 +8,12 @@ const NewFolder = (props) => {
   const classes = useStyles();
   const [folderName, useFolderName] = useState("");
 
+  function exists() {
+    return props.folders.find((f) => {
+      return f.name == folderName;
+    });
+  }
+
   return (
     <TextField
       id="new-folder"
@@ -15,10 +21,13 @@ const NewFolder = (props) => {
       onChange={(e) => {
         useFolderName(e.target.value);
       }}
+      error={exists()}
       onKeyDown={(ev) => {
         if (ev.key === "Enter") {
-          props.newFolder({ name: folderName });
-          props.onNewFolderCreated();
+          if (!exists()) {
+            props.newFolder({ name: folderName });
+            props.onNewFolderCreated();
+          }
         } else if (ev.key === "Escape") {
           props.onNewFolderCreated();
         }
@@ -41,7 +50,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    folders: state.folders
+  };
 };
 
 const mapDispatchToProps = { newFolder };

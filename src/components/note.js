@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItemLink from "./routerLink";
 import PageIcon from "@material-ui/icons/Pages";
 import { useDrag } from "react-dnd";
 import { connect } from "react-redux";
-import { selectNote } from "../redux/actions";
+import { selectNote, deleteNote } from "../redux/actions";
 import slug from "../adapters/slug";
 import dayjs from "dayjs";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const Note = ({ note, ...props }) => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const [{ isDragging }, drag] = useDrag({
     item: { type: "NOTE", note },
@@ -53,15 +59,27 @@ const Note = ({ note, ...props }) => {
   function handleRightClick(e) {
     if (e.type === "contextmenu") {
       e.preventDefault();
-      // TODO open note context menu here
+      setAnchorEl(e.target);
     }
   }
+
+  function handleDeleteNote(e) {
+    e.preventDefault();
+    props.deleteNote(note);
+    handleContextMenuClose();
+  }
+
+  function handleContextMenuClose() {
+    setAnchorEl(null);
+  }
+
   return (
     <div
       ref={drag}
       style={{
         opacity: isDragging ? 0.5 : 1
       }}
+      onContextMenu={handleRightClick}
     >
       <ListItemLink
         selected={props.selectedNote === note.id}
@@ -71,8 +89,22 @@ const Note = ({ note, ...props }) => {
         icon={<PageIcon />}
         primary={`${note.text.substring(0, 20)}..`}
         secondary={renderSecondaryLine(note.lastUpdate, note.folderName)}
-        onContextMenu={handleRightClick}
       />
+      <Menu
+        id="simple-note-menu"
+        anchorEl={anchorEl}
+        getContentAnchorEl={null}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleContextMenuClose}
+      >
+        <MenuItem onClick={handleDeleteNote}>
+          <ListItemIcon>
+            <DeleteIcon />
+          </ListItemIcon>
+          <ListItemText primary="Delete" />
+        </MenuItem>
+      </Menu>
     </div>
   );
 };
@@ -84,7 +116,7 @@ const mapStateToProps = (state) => {
     selectedNote: state.selectedNote
   };
 };
-const mapDispatchToProps = { selectNote };
+const mapDispatchToProps = { selectNote, deleteNote };
 
 const useStyles = makeStyles((theme) => ({
   secondary: {

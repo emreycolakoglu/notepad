@@ -9,10 +9,10 @@ import {
   SELECT_FOLDER,
 } from "./actionTypes";
 
-export function deleteNote(id) {
+export function deleteNote(note) {
   return {
     type: DELETE_NOTE,
-    id
+    note
   };
 }
 

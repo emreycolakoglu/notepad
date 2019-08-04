@@ -31,7 +31,7 @@ function notes(state = defaultNotes, action) {
       });
     case DELETE_NOTE:
       const updatedNotes = state.filter((note) => {
-        return note.id != action.id;
+        return note.id != action.note.id;
       });
       return [...updatedNotes];
     default:
