@@ -37,10 +37,21 @@ const Folder = ({ folder, ...props }) => {
     setAnchorEl(null);
   }
 
+  function selectFirstNoteOfFolder(value) {
+    let newNotes = props.notes.filter((note) => {
+      return note.folderName == value.name;
+    });
+    if (newNotes && newNotes.length > 0) {
+      newNotes = newNotes.sort((a, b) => b.lastUpdate - a.lastUpdate);
+      props.selectNote(newNotes[0].id);
+    } else {
+      props.selectNote("");
+    }
+  }
+
   function handleListItemClick(event, value) {
-    console.log(value);
     props.selectFolder(value);
-    props.selectNote("");
+    selectFirstNoteOfFolder(value);
   }
 
   function handleRightClick(e) {

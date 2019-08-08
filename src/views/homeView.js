@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import Layout from "../components/layout";
 import { connect } from "react-redux";
-import { deleteNote, newNote, editNote, selectFolder } from "../redux/actions";
+import {
+  deleteNote,
+  newNote,
+  editNote,
+  selectFolder,
+  selectNote
+} from "../redux/actions";
 import Editor from "../components/editor";
 import IconButton from "@material-ui/core/IconButton";
 import FullScreenIcon from "@material-ui/icons/Fullscreen";
@@ -15,13 +21,29 @@ const Home = (props) => {
   function newNoteCallback() {
     props.newNote({
       text: "",
-      folderName: "Default",
+      folderName:
+        props.selectedFolder.name != "All"
+          ? props.selectedFolder.name
+          : "Default",
       lastUpdate: Date.now()
     });
   }
 
+  function selectFirstNoteOfFolder(folder) {
+    let newNotes = props.notes.filter((note) => {
+      return note.folderName == folder.name;
+    });
+    if (newNotes && newNotes.length > 0) {
+      newNotes = newNotes.sort((a, b) => b.lastUpdate - a.lastUpdate);
+      props.selectNote(newNotes[0].id);
+    } else {
+      props.selectNote("");
+    }
+  }
+
   function deleteNoteCallback() {
-    props.deleteNote(props.selectedNote);
+    props.deleteNote({ id: props.selectedNote });
+    selectFirstNoteOfFolder(props.selectedFolder);
   }
 
   function shareNoteCallback() {
@@ -127,7 +149,13 @@ const mapStateToProps = (state /*, ownProps*/) => {
   };
 };
 
-const mapDispatchToProps = { deleteNote, newNote, editNote, selectFolder };
+const mapDispatchToProps = {
+  deleteNote,
+  newNote,
+  editNote,
+  selectFolder,
+  selectNote
+};
 
 export default connect(
   mapStateToProps,
